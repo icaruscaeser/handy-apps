@@ -27,7 +27,7 @@ def download_consecutive_images_api():
 
     except Exception as exc:
         print(exc)
-        return 'Expected the arguments are url, extension, from, to   -- \n download-consecutive-images?extension=jpg&&url=https://images.com/hello&&from=1&&to=2'
+        return 'Expected the arguments are url, extension, from, to   -- <a href="download-consecutive-images?extension=jpg&&from=1&&to=2&&url=https://images.com/hello">click me for ease of use</a>'
 
     zip_file_dest = download_images_bunch.download_consecutive_images_as_zip(url, extension, from_index, to_index)
     zip_file_dest = os.path.abspath(zip_file_dest)
