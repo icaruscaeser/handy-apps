@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AES</title>
+
+    <script>
+        function perform_operation(){
+            //This method gets called when submit button is pressed
+            var operation='';
+            var url = '';
+            if(document.getElementById('encrypt').checked){
+                operation = 'encrypt';
+                url = '/aes/encrypt';
+
+            }
+            else if(document.getElementById('decrypt').checked){
+                operation = 'decrypt';
+                url = '/aes/decrypt';
+            }
+
+            if(document.getElementById('uploadfile').files[0] == undefined){
+                alert("Select a file. moron!!");
+                return;
+            }
+
+            var file = document.getElementById('uploadfile').files[0];
+            var formdata = new FormData();
+            formdata.append('file', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', url);
+            xhr.responseType = 'blob';
+
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("done");
+
+                    var blob = xhr.response;
+                    var link = document.createElement('a');
+                    var filename = xhr.getResponseHeader('filename');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                }
+            };
+
+
+            xhr.send(formdata);
+
+            
+        }
+    </script>
+</head>
+<body>
+<div>
+    <label> Operation </label>
+    <br>
+    <input type="radio" id="encrypt" name="operation" checked>encrypt</input>
+    <br>
+    <input type="radio" id="decrypt" name="operation">decrypt</input>
+    <br><br>
+    <input type="file" id="uploadfile" >
+    <br><br>
+    <button id="submit" onclick="perform_operation()">Submit</button>
+</div>
+</body>
+</html>
